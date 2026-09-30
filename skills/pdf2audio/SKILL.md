@@ -21,14 +21,23 @@ Everything runs on the user's machine. Documents people want narrated are often 
 (drafts, proposals, manuscripts under review), so do not send the text to a cloud TTS service
 unless the user asks for one, even if API keys are present in the environment.
 
+Paths such as `scripts/...` below are relative to this skill's own folder (the base directory
+shown when the skill loads), not to the user's working directory.
+
 ## 0. Setup (once per machine)
+
+If `~/.cache/pdf2audio/venv/bin/python` does not exist yet, run the setup yourself before
+anything else; the user should not have to:
 
 ```bash
 bash scripts/setup_tts.sh
 ```
 
 Installs the Kokoro neural voice (about 350 MB) into `~/.cache/pdf2audio` (override with
-`PDF2AUDIO_HOME`) and checks for `pdftotext` and `ffmpeg`. It is idempotent; rerun it freely.
+`PDF2AUDIO_HOME`) and checks for `pdftotext` and `ffmpeg`. If one of those is missing, tell the
+user the install command it prints rather than installing system packages on your own. The voice
+lives outside the skill folder, so it survives plugin updates. The script is idempotent; rerun
+it freely.
 Scripts that speak (`synth.py`, and `lint_script.py` for phonemes) must be run with the
 interpreter it prints: `~/.cache/pdf2audio/venv/bin/python`.
 

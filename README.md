@@ -1,14 +1,11 @@
 # pdf2audio
 
-An agent skill that turns a PDF into audio worth listening to. The agent rewrites the extracted
+A Claude Code plugin (one agent skill) that turns a PDF into audio worth listening to. The agent rewrites the extracted
 text into a narration script: citations removed, tables and figures described in prose,
 acronyms respelled. A neural voice running locally then reads it, and the result is packaged as
 MP3 and as a chaptered M4B audiobook. Nothing leaves the machine.
 
 ## Install
-
-Installation has three parts: the command-line tools, the skill itself, and a one-time voice
-download.
 
 ### 1. Prerequisites
 
@@ -20,67 +17,60 @@ You need Python 3.10 or newer, `pdftotext` (from poppler), and `ffmpeg`.
 | Debian / Ubuntu | `sudo apt install poppler-utils ffmpeg python3-venv` |
 | Fedora | `sudo dnf install poppler-utils ffmpeg python3` |
 
-This skill has been used on macOS with Apple silicon. Linux should work the same way. Windows
+This plugin has been used on macOS with Apple silicon. Linux should work the same way. Windows
 is untested; if you try it, use WSL and follow the Debian/Ubuntu line.
 
-### 2. Put the skill where Claude Code finds it
-
-Choose one of the following.
-
-**For yourself, in every project** (personal skills folder):
+### 2. Install the plugin
 
 ```bash
-git clone https://github.com/qiyanjun/pdf2audio-agent-skill.git ~/.claude/skills/pdf2audio
+claude plugin marketplace add qiyanjun/pdf2audio-agent-skill
+claude plugin install pdf2audio@pdf2audio-agent-skill
 ```
 
-**For one project only**, shared with everyone who works in that repository. Run this from the
-project's root, then commit the folder:
+Both steps are needed: the first registers this repository as a marketplace, the second installs
+the plugin from it. You can run the same commands inside Claude Code as `/plugin marketplace add
+...` and `/plugin install ...`. Check the result with `claude plugin list`.
 
-```bash
-git clone https://github.com/qiyanjun/pdf2audio-agent-skill.git .claude/skills/pdf2audio
-rm -rf .claude/skills/pdf2audio/.git     # or add it as a git submodule instead
-```
+### 3. Use it
 
-**From a clone you want to edit**: keep the clone wherever you like and link it in, so that
-your edits take effect immediately:
-
-```bash
-git clone https://github.com/qiyanjun/pdf2audio-agent-skill.git
-ln -s "$PWD/pdf2audio-agent-skill" ~/.claude/skills/pdf2audio
-```
-
-Without git, download the ZIP from GitHub (**Code → Download ZIP**) and unzip it to
-`~/.claude/skills/pdf2audio`.
-
-### 3. Download the voice (one time)
-
-```bash
-bash ~/.claude/skills/pdf2audio/scripts/setup_tts.sh
-```
-
-Adjust the path if you installed the skill somewhere else. The script checks the prerequisites,
-creates a Python environment, and downloads the Kokoro voice model (about 350 MB) into
-`~/.cache/pdf2audio`. To keep it elsewhere, set `PDF2AUDIO_HOME` before running it and in the
-shell Claude Code runs in. Keep that path short (see Troubleshooting in `SKILL.md`).
-
-The script is safe to rerun. It finishes with a voice check; a line like
-`Voice check: ɹˈɛdi tə nɚɹˈeɪt` means everything works.
-
-### 4. Use it
-
-Start a new Claude Code session, so the skill list is reloaded, and ask for it in plain words,
-for example:
+Start a new Claude Code session, so the skill list is reloaded, and ask in plain words:
 
 > convert ~/Downloads/paper.pdf into audio I can listen to
 
-The audio lands next to the PDF in a `<name>-audio/` folder.
+The first time, Claude runs the one-time voice setup itself: it downloads the Kokoro voice
+model (about 350 MB) into `~/.cache/pdf2audio`. The audio lands next to the PDF in a
+`<name>-audio/` folder. You can also call the skill directly as `/pdf2audio:pdf2audio`.
 
 ### Update and uninstall
 
 ```bash
-git -C ~/.claude/skills/pdf2audio pull                  # update the skill
-rm -rf ~/.claude/skills/pdf2audio ~/.cache/pdf2audio    # remove the skill and the voice
+claude plugin marketplace update pdf2audio-agent-skill    # fetch the latest version
+claude plugin update pdf2audio@pdf2audio-agent-skill
+
+claude plugin uninstall pdf2audio@pdf2audio-agent-skill   # remove the plugin
+rm -rf ~/.cache/pdf2audio                                 # and the voice
 ```
+
+The voice lives outside the plugin folder, so updates do not download it again. `update` only
+acts when the version in `.claude-plugin/plugin.json` changes; if you are testing unreleased
+edits, uninstall and reinstall instead.
+
+### Without the plugin system
+
+The skill itself is the folder `skills/pdf2audio/`. Any agent that reads `SKILL.md` skills can
+use it from a skills directory:
+
+```bash
+git clone https://github.com/qiyanjun/pdf2audio-agent-skill.git
+ln -s "$PWD/pdf2audio-agent-skill/skills/pdf2audio" ~/.claude/skills/pdf2audio   # all projects
+# or, for one project: cp -R pdf2audio-agent-skill/skills/pdf2audio .claude/skills/
+```
+
+The linked clone is also the easiest setup for editing the skill: changes take effect in the
+next session. To download the voice ahead of time rather than on first use, run
+`bash skills/pdf2audio/scripts/setup_tts.sh` from the clone. `PDF2AUDIO_HOME` sets another
+location for the voice; keep that path short (see Troubleshooting in `SKILL.md`). The script
+ends with a voice check; a line like `Voice check: ɹˈɛdi tə nɚɹˈeɪt` means it works.
 
 ## How it works
 
@@ -169,25 +159,31 @@ listening: it asks espeak-ng for exactly what Kokoro will be told to say.
 
 | Path | Purpose |
 |---|---|
-| `SKILL.md` | The workflow the agent follows. |
-| `references/narration-guide.md` | Config fields and the rules for rewriting text for the ear. |
-| `assets/narration.example.json` | Starting point for a document's config. |
-| `scripts/setup_tts.sh` | Installs the Kokoro voice and checks dependencies. |
-| `scripts/tts_common.py` | Locates and loads the installed voice (shared by the scripts that speak). |
-| `scripts/build_script.py` | `raw.txt` + `narration.json` -> one text file per chapter. |
-| `scripts/lint_script.py` | Flags symbols, leaked page numbers and fused words; shows phonemes in context. |
-| `scripts/synth.py` | Script -> one WAV per chapter (incremental). |
-| `scripts/assemble.py` | WAVs -> chapter MP3s, full MP3, chaptered M4B. |
+| `.claude-plugin/plugin.json` | Plugin manifest: name, version, description. |
+| `.claude-plugin/marketplace.json` | Lets this repository be added as a one-plugin marketplace. |
+| `skills/pdf2audio/SKILL.md` | The workflow the agent follows. |
+| `skills/pdf2audio/references/narration-guide.md` | Config fields and the rules for rewriting text for the ear. |
+| `skills/pdf2audio/assets/narration.example.json` | Starting point for a document's config. |
+| `skills/pdf2audio/scripts/setup_tts.sh` | Installs the Kokoro voice and checks dependencies. |
+| `skills/pdf2audio/scripts/tts_common.py` | Locates and loads the installed voice (shared by the scripts that speak). |
+| `skills/pdf2audio/scripts/build_script.py` | `raw.txt` + `narration.json` -> one text file per chapter. |
+| `skills/pdf2audio/scripts/lint_script.py` | Flags symbols, leaked page numbers and fused words; shows phonemes in context. |
+| `skills/pdf2audio/scripts/synth.py` | Script -> one WAV per chapter (incremental). |
+| `skills/pdf2audio/scripts/assemble.py` | WAVs -> chapter MP3s, full MP3, chaptered M4B. |
 | `docs/pdf2audio-schematic.png` | The pipeline diagram above; `.excalidraw` beside it is the editable source. |
 
 ## Manual use
 
+From a clone, without an agent:
+
 ```bash
+K=skills/pdf2audio/scripts
 V=~/.cache/pdf2audio/venv/bin/python
+bash $K/setup_tts.sh
 pdftotext paper.pdf work/raw.txt
-# write work/narration.json (see assets/ and references/)
-python3 scripts/build_script.py work/raw.txt work/narration.json work/script
-$V scripts/lint_script.py work/script --words "Nersk, Sigh-Dack"   # --words: test respellings
-$V scripts/synth.py work/script work/wav --voice af_heart
-python3 scripts/assemble.py work/wav work/script paper-audio --title "Paper title"
+# write work/narration.json (see skills/pdf2audio/assets/ and references/)
+python3 $K/build_script.py work/raw.txt work/narration.json work/script
+$V $K/lint_script.py work/script --words "Nersk, Sigh-Dack"   # --words: test respellings
+$V $K/synth.py work/script work/wav --voice af_heart
+python3 $K/assemble.py work/wav work/script paper-audio --title "Paper title"
 ```
