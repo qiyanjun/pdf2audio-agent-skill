@@ -7,15 +7,80 @@ MP3 and as a chaptered M4B audiobook. Nothing leaves the machine.
 
 ## Install
 
-Copy or symlink this folder into a skills directory, for example:
+Installation has three parts: the command-line tools, the skill itself, and a one-time voice
+download.
+
+### 1. Prerequisites
+
+You need Python 3.10 or newer, `pdftotext` (from poppler), and `ffmpeg`.
+
+| Platform | Command |
+|---|---|
+| macOS (Homebrew) | `brew install poppler ffmpeg` |
+| Debian / Ubuntu | `sudo apt install poppler-utils ffmpeg python3-venv` |
+| Fedora | `sudo dnf install poppler-utils ffmpeg python3` |
+
+This skill has been used on macOS with Apple silicon. Linux should work the same way. Windows
+is untested; if you try it, use WSL and follow the Debian/Ubuntu line.
+
+### 2. Put the skill where Claude Code finds it
+
+Choose one of the following.
+
+**For yourself, in every project** (personal skills folder):
 
 ```bash
-ln -s "$PWD" ~/.claude/skills/pdf2audio
-bash scripts/setup_tts.sh        # one time: voice model (~350 MB) into ~/.cache/pdf2audio
+git clone https://github.com/qiyanjun/pdf2audio-agent-skill.git ~/.claude/skills/pdf2audio
 ```
 
-Requires `python3`, `pdftotext` (poppler), and `ffmpeg`. Then ask: "convert paper.pdf into
-audio I can listen to".
+**For one project only**, shared with everyone who works in that repository. Run this from the
+project's root, then commit the folder:
+
+```bash
+git clone https://github.com/qiyanjun/pdf2audio-agent-skill.git .claude/skills/pdf2audio
+rm -rf .claude/skills/pdf2audio/.git     # or add it as a git submodule instead
+```
+
+**From a clone you want to edit**: keep the clone wherever you like and link it in, so that
+your edits take effect immediately:
+
+```bash
+git clone https://github.com/qiyanjun/pdf2audio-agent-skill.git
+ln -s "$PWD/pdf2audio-agent-skill" ~/.claude/skills/pdf2audio
+```
+
+Without git, download the ZIP from GitHub (**Code → Download ZIP**) and unzip it to
+`~/.claude/skills/pdf2audio`.
+
+### 3. Download the voice (one time)
+
+```bash
+bash ~/.claude/skills/pdf2audio/scripts/setup_tts.sh
+```
+
+Adjust the path if you installed the skill somewhere else. The script checks the prerequisites,
+creates a Python environment, and downloads the Kokoro voice model (about 350 MB) into
+`~/.cache/pdf2audio`. To keep it elsewhere, set `PDF2AUDIO_HOME` before running it and in the
+shell Claude Code runs in. Keep that path short (see Troubleshooting in `SKILL.md`).
+
+The script is safe to rerun. It finishes with a voice check; a line like
+`Voice check: ɹˈɛdi tə nɚɹˈeɪt` means everything works.
+
+### 4. Use it
+
+Start a new Claude Code session, so the skill list is reloaded, and ask for it in plain words,
+for example:
+
+> convert ~/Downloads/paper.pdf into audio I can listen to
+
+The audio lands next to the PDF in a `<name>-audio/` folder.
+
+### Update and uninstall
+
+```bash
+git -C ~/.claude/skills/pdf2audio pull                  # update the skill
+rm -rf ~/.claude/skills/pdf2audio ~/.cache/pdf2audio    # remove the skill and the voice
+```
 
 ## How it works
 
