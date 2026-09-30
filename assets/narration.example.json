@@ -1,0 +1,30 @@
+{
+  "title": "An Example Paper",
+  "drop_lines": [[1, 6], [48, 71], [96, 96], [410, 655]],
+  "blank_line_is_paragraph_break": false,
+  "chapter_headings": ["^Abstract$", "^\\d (Introduction|Related Work|Method|Experiments|Conclusion)", "^Appendix"],
+  "section_headings": ["^\\d\\.\\d [A-Z]"],
+  "heading_rewrites": [["^(\\d(?:\\.\\d)?) ", "Section \\1. "]],
+  "paragraph_starts": ["Contributions.", "Setup.", "Results.", "Limitations."],
+  "inserts": [
+    {
+      "after": "as shown in Figure 1",
+      "text": "Figure 1 shows the pipeline: documents are retrieved, ranked, and passed to the generator, and the generator's answer is checked against the retrieved passages."
+    },
+    {
+      "after": "Table 2 reports accuracy",
+      "text": "Table 2 compares four methods on three benchmarks. Our method is best on all three; the largest margin, about six points, is on the hardest benchmark."
+    }
+  ],
+  "dehyphenate": {"openweight": "open-weight", "stateof-the-art": "state-of-the-art"},
+  "keep_citations": false,
+  "substitutions": [
+    ["\\s*\\((?:[A-Z][\\w-]+(?: et al\\.)?,? \\d{4}[a-z]?(?:; )?)+\\)", ""],
+    ["\\bLLMs\\b", "L L M’s"],
+    ["\\bRoBERTa\\b", "Roberta"],
+    ["\\be\\.g\\.,", "for example,"],
+    ["\\bi\\.e\\.,", "that is,"],
+    ["pre/post", "pre and post"]
+  ],
+  "spell_digits_from": 7
+}
