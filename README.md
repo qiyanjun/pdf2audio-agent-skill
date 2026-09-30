@@ -1,5 +1,7 @@
 # pdf2audio
 
+[![tests](https://github.com/qiyanjun/pdf2audio-agent-skill/actions/workflows/tests.yml/badge.svg)](https://github.com/qiyanjun/pdf2audio-agent-skill/actions/workflows/tests.yml)
+
 A Claude Code plugin (one agent skill) that turns a PDF into audio worth listening to. The agent rewrites the extracted
 text into a narration script: citations removed, tables and figures described in prose,
 acronyms respelled. A neural voice running locally then reads it, and the result is packaged as
@@ -172,6 +174,22 @@ listening: it asks espeak-ng for exactly what Kokoro will be told to say.
 | `skills/pdf2audio/scripts/assemble.py` | WAVs -> chapter MP3s, full MP3, chaptered M4B. |
 | `docs/pdf2audio-schematic.png` | The pipeline diagram above; `.excalidraw` beside it is the editable source. |
 
+## Tests
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+The tests cover the deterministic scripts: how the builder turns raw text and a config into
+chapters, what the linter flags, and how the packager writes the MP3 and chaptered M4B. They
+also check that the plugin manifests agree. Several of them pin down mispronunciations and
+breakages found while narrating real documents, such as look-alike semicolons and a lone "A"
+read as "uh". They need only Python and `ffmpeg`. GitHub Actions runs them on every push.
+
+A smoke test that narrates one sentence with the real voice runs only where the voice is
+installed. Use the voice's interpreter to include it:
+`~/.cache/pdf2audio/venv/bin/python -m unittest discover -s tests`.
+
 ## Manual use
 
 From a clone, without an agent:
@@ -187,3 +205,7 @@ $V $K/lint_script.py work/script --words "Nersk, Sigh-Dack"   # --words: test re
 $V $K/synth.py work/script work/wav --voice af_heart
 python3 $K/assemble.py work/wav work/script paper-audio --title "Paper title"
 ```
+
+## Author
+
+Yanjun Qi. Released under the [MIT License](LICENSE).

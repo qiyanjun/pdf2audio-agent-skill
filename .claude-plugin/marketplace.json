@@ -2,12 +2,12 @@
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "pdf2audio-agent-skill",
   "description": "Turn PDFs into narrated audiobooks with a local voice.",
-  "owner": { "name": "Yanjun Qi / Jane" },
+  "owner": { "name": "Yanjun Qi" },
   "plugins": [
     {
       "name": "pdf2audio",
       "description": "Turns a PDF into a narrated audiobook: the agent rewrites the text for the ear, then a local neural voice reads it into chaptered MP3 and M4B files.",
-      "author": { "name": "Yanjun Qi / Jane" },
+      "author": { "name": "Yanjun Qi" },
       "source": "./"
     }
   ]

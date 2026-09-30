@@ -1,9 +1,9 @@
 {
   "name": "pdf2audio",
   "displayName": "PDF to Audio",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Turns a PDF into a narrated audiobook: the agent rewrites the text for the ear (citations dropped, tables and figures as prose, acronyms respelled), then a local neural voice reads it into chaptered MP3 and M4B files. Nothing leaves the machine.",
-  "author": { "name": "Yanjun Qi / Jane" },
+  "author": { "name": "Yanjun Qi" },
   "homepage": "https://github.com/qiyanjun/pdf2audio-agent-skill",
   "repository": "https://github.com/qiyanjun/pdf2audio-agent-skill",
   "license": "MIT",
