@@ -9,9 +9,27 @@ MP3 and as a chaptered M4B audiobook. Nothing leaves the machine.
 
 ## Install
 
-### 1. Prerequisites
+In a terminal:
 
-You need Python 3.10 or newer, `pdftotext` (from poppler), and `ffmpeg`.
+```bash
+claude plugin marketplace add qiyanjun/pdf2audio-agent-skill
+claude plugin install pdf2audio@pdf2audio-agent-skill
+```
+
+Or inside Claude Code:
+
+```
+/plugin marketplace add qiyanjun/pdf2audio-agent-skill
+/plugin install pdf2audio@pdf2audio-agent-skill
+```
+
+Both steps are needed: the first registers this repository as a plugin marketplace, the second
+installs the plugin from it. Check the result with `claude plugin list`.
+
+### Prerequisites
+
+The plugin calls three command-line tools you install once: Python 3.10 or newer, `pdftotext`
+(from poppler), and `ffmpeg`.
 
 | Platform | Command |
 |---|---|
@@ -25,18 +43,7 @@ fused by a lost hyphen, and skips that one check without it. macOS includes one.
 This plugin has been used on macOS with Apple silicon. Linux should work the same way. Windows
 is untested; if you try it, use WSL and follow the Debian/Ubuntu line.
 
-### 2. Install the plugin
-
-```bash
-claude plugin marketplace add qiyanjun/pdf2audio-agent-skill
-claude plugin install pdf2audio@pdf2audio-agent-skill
-```
-
-Both steps are needed: the first registers this repository as a marketplace, the second installs
-the plugin from it. You can run the same commands inside Claude Code as `/plugin marketplace add
-...` and `/plugin install ...`. Check the result with `claude plugin list`.
-
-### 3. Use it
+### Use it
 
 Start a new Claude Code session, so the skill list is reloaded, and ask in plain words:
 
