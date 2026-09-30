@@ -16,8 +16,11 @@ You need Python 3.10 or newer, `pdftotext` (from poppler), and `ffmpeg`.
 | Platform | Command |
 |---|---|
 | macOS (Homebrew) | `brew install poppler ffmpeg` |
-| Debian / Ubuntu | `sudo apt install poppler-utils ffmpeg python3-venv` |
-| Fedora | `sudo dnf install poppler-utils ffmpeg python3` |
+| Debian / Ubuntu | `sudo apt install poppler-utils ffmpeg python3-venv wamerican` |
+| Fedora | `sudo dnf install poppler-utils ffmpeg python3 words` |
+
+On Linux, the word list (`wamerican` or `words`) is optional: the linter uses it to spot words
+fused by a lost hyphen, and skips that one check without it. macOS includes one.
 
 This plugin has been used on macOS with Apple silicon. Linux should work the same way. Windows
 is untested; if you try it, use WSL and follow the Debian/Ubuntu line.

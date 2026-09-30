@@ -34,6 +34,7 @@ class Lint(unittest.TestCase):
         section = self.out.split("== Stray numbers (leaked page numbers?) ==")[1].split("\n== ")[0]
         self.assertIn("clear 13", section)
 
+    @unittest.skipUnless(Path("/usr/share/dict/words").exists(), "no system word list")
     def test_ranks_fused_word_with_split_form_as_likely(self):
         likely = next(l for l in self.out.splitlines() if l.strip().startswith("likely:"))
         self.assertIn("open-weight", likely)
