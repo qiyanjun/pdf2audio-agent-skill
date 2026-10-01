@@ -1,0 +1,118 @@
+{
+  "model": "claude-opus-5-5",
+  "runs": 3,
+  "mode": "installed setup",
+  "passed": 6,
+  "total": 6,
+  "cases": [
+    {
+      "id": "neg-01",
+      "expect": [
+        "none"
+      ],
+      "picks": {
+        "none": 3
+      },
+      "majority": "none",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "answered without a skill",
+        "answered without a skill",
+        "answered without a skill"
+      ],
+      "query": "Summarize this PDF (whitepaper.pdf) in five bullet points."
+    },
+    {
+      "id": "neg-02",
+      "expect": [
+        "none"
+      ],
+      "picks": {
+        "other:anthropic-skills:pdf": 3
+      },
+      "majority": "other:anthropic-skills:pdf",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "anthropic-skills:pdf",
+        "anthropic-skills:pdf",
+        "anthropic-skills:pdf"
+      ],
+      "query": "Extract all the tables from annual_report.pdf into a CSV."
+    },
+    {
+      "id": "neg-03",
+      "expect": [
+        "none"
+      ],
+      "picks": {
+        "other:deck-improver:deck-converting-from-pdf": 2,
+        "other:deck-improver:deck-from-pdf": 1
+      },
+      "majority": "other:deck-improver:deck-converting-from-pdf",
+      "agreement": "2/3",
+      "pass": true,
+      "raw": [
+        "deck-improver:deck-converting-from-pdf",
+        "deck-improver:deck-from-pdf",
+        "deck-improver:deck-converting-from-pdf"
+      ],
+      "query": "Convert my PDF slide deck (talk_slides.pdf) into an editable PowerPoint file."
+    },
+    {
+      "id": "neg-04",
+      "expect": [
+        "none"
+      ],
+      "picks": {
+        "other:lecture-video-improver:build-video-voiceovers": 3
+      },
+      "majority": "other:lecture-video-improver:build-video-voiceovers",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "lecture-video-improver:build-video-voiceovers",
+        "lecture-video-improver:build-video-voiceovers",
+        "lecture-video-improver:build-video-voiceovers"
+      ],
+      "query": "Add a TTS voiceover narration track to my lecture video lecture05.mp4 using its transcript."
+    },
+    {
+      "id": "neg-05",
+      "expect": [
+        "none"
+      ],
+      "picks": {
+        "none": 3
+      },
+      "majority": "none",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "answered without a skill",
+        "answered without a skill",
+        "answered without a skill"
+      ],
+      "query": "Transcribe interview.m4a to text with timestamps."
+    },
+    {
+      "id": "neg-06",
+      "expect": [
+        "none"
+      ],
+      "picks": {
+        "none": 3
+      },
+      "majority": "none",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "answered without a skill",
+        "answered without a skill",
+        "answered without a skill"
+      ],
+      "query": "Write a two-host podcast script discussing the main ideas of this paper (paper.pdf)."
+    }
+  ]
+}
