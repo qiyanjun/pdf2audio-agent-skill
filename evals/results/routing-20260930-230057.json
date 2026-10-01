@@ -1,0 +1,225 @@
+{
+  "model": "claude-opus-5-5",
+  "runs": 3,
+  "mode": "this checkout only",
+  "passed": 12,
+  "total": 12,
+  "cases": [
+    {
+      "id": "pos-01",
+      "expect": [
+        "pdf2audio"
+      ],
+      "picks": {
+        "pdf2audio": 3
+      },
+      "majority": "pdf2audio",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "pdf2audio:pdf2audio",
+        "pdf2audio:pdf2audio",
+        "pdf2audio:pdf2audio"
+      ],
+      "query": "I have a 40-minute commute. Can you turn ~/Downloads/attention-paper.pdf into something I can listen to in the car?"
+    },
+    {
+      "id": "pos-02",
+      "expect": [
+        "pdf2audio"
+      ],
+      "picks": {
+        "pdf2audio": 3
+      },
+      "majority": "pdf2audio",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "pdf2audio:pdf2audio",
+        "pdf2audio:pdf2audio",
+        "pdf2audio:pdf2audio"
+      ],
+      "query": "Narrate this quarterly report PDF (q3_report.pdf) so I can play it back instead of reading it."
+    },
+    {
+      "id": "pos-03",
+      "expect": [
+        "pdf2audio"
+      ],
+      "picks": {
+        "pdf2audio": 3
+      },
+      "majority": "pdf2audio",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "pdf2audio:pdf2audio",
+        "pdf2audio:pdf2audio",
+        "pdf2audio:pdf2audio"
+      ],
+      "query": "make an audiobook-style mp3 of my lecture notes, notes/week1-6.pdf, with a chapter per week"
+    },
+    {
+      "id": "pos-04",
+      "expect": [
+        "pdf2audio"
+      ],
+      "picks": {
+        "pdf2audio": 3
+      },
+      "majority": "pdf2audio",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "pdf2audio:pdf2audio",
+        "pdf2audio:pdf2audio",
+        "pdf2audio:pdf2audio"
+      ],
+      "query": "Read this grant proposal draft aloud to me as an audio file: drafts/proposal_v3.pdf"
+    },
+    {
+      "id": "pos-05",
+      "expect": [
+        "pdf2audio"
+      ],
+      "picks": {
+        "pdf2audio": 3
+      },
+      "majority": "pdf2audio",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "pdf2audio:pdf2audio",
+        "pdf2audio:pdf2audio",
+        "pdf2audio:pdf2audio"
+      ],
+      "query": "text to speech for book_chapter4.pdf please, I want to listen while I run"
+    },
+    {
+      "id": "pos-06",
+      "expect": [
+        "pdf2audio"
+      ],
+      "picks": {
+        "pdf2audio": 3
+      },
+      "majority": "pdf2audio",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "pdf2audio:pdf2audio",
+        "pdf2audio:pdf2audio",
+        "pdf2audio:pdf2audio"
+      ],
+      "query": "Convert survey.pdf to audio. Skip the reference list and don't read the citation numbers."
+    },
+    {
+      "id": "neg-01",
+      "expect": [
+        "none"
+      ],
+      "picks": {
+        "none": 3
+      },
+      "majority": "none",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "answered without a skill",
+        "answered without a skill",
+        "answered without a skill"
+      ],
+      "query": "Summarize this PDF (whitepaper.pdf) in five bullet points."
+    },
+    {
+      "id": "neg-02",
+      "expect": [
+        "none"
+      ],
+      "picks": {
+        "none": 3
+      },
+      "majority": "none",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "answered without a skill",
+        "answered without a skill",
+        "answered without a skill"
+      ],
+      "query": "Extract all the tables from annual_report.pdf into a CSV."
+    },
+    {
+      "id": "neg-03",
+      "expect": [
+        "none"
+      ],
+      "picks": {
+        "none": 3
+      },
+      "majority": "none",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "answered without a skill",
+        "answered without a skill",
+        "answered without a skill"
+      ],
+      "query": "Convert my PDF slide deck (talk_slides.pdf) into an editable PowerPoint file."
+    },
+    {
+      "id": "neg-04",
+      "expect": [
+        "none"
+      ],
+      "picks": {
+        "none": 3
+      },
+      "majority": "none",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "answered without a skill",
+        "answered without a skill",
+        "answered without a skill"
+      ],
+      "query": "Add a TTS voiceover narration track to my lecture video lecture05.mp4 using its transcript."
+    },
+    {
+      "id": "neg-05",
+      "expect": [
+        "none"
+      ],
+      "picks": {
+        "none": 3
+      },
+      "majority": "none",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "answered without a skill",
+        "answered without a skill",
+        "answered without a skill"
+      ],
+      "query": "Transcribe interview.m4a to text with timestamps."
+    },
+    {
+      "id": "neg-06",
+      "expect": [
+        "none"
+      ],
+      "picks": {
+        "none": 3
+      },
+      "majority": "none",
+      "agreement": "3/3",
+      "pass": true,
+      "raw": [
+        "answered without a skill",
+        "answered without a skill",
+        "answered without a skill"
+      ],
+      "query": "Write a two-host podcast script discussing the main ideas of this paper (paper.pdf)."
+    }
+  ]
+}

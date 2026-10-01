@@ -200,6 +200,17 @@ A smoke test that narrates one sentence with the real voice runs only where the 
 installed. Use the voice's interpreter to include it:
 `~/.cache/pdf2audio/venv/bin/python -m unittest discover -s tests`.
 
+`python3 tests/validate_plugin.py` (needs `pyyaml`) checks the plugin itself: the skill's
+frontmatter, the manifests, every file path the docs mention, and that the scripts compile.
+CI runs it too.
+
+`python3 tests/run_trigger_evals.py` checks routing: it sends each request in
+`evals/routing.json` to `claude -p` and records whether the pdf2audio skill fires, including
+near-misses that belong elsewhere (summarizing a PDF, video voiceovers, transcription). Add
+`--installed` to test against your real setup with other plugins competing. It needs a
+logged-in `claude` CLI, costs one short model call per request per run, and is not run in CI.
+Results are saved under `evals/results/`.
+
 ## Manual use
 
 From a clone, without an agent:
